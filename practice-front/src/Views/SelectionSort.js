@@ -1,29 +1,9 @@
 import React, { Component } from 'react';
 import Array from '../Components/Array';
-import styled from 'styled-components';
+import Button from '../Components/Button';
 import Colors from '../Colors';
 import Sort from '../Algortihms/SelectionSort';
 
-const Button = styled.div`
-  display: flex;
-  color: white;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 30px;
-  border: 2px solid ${Colors.green};
-  user-select: none;
-  :hover {
-    text-decoration: none;  
-    color: ${Colors.lightGrey}80;
-    background-color: ${Colors.lightGrey}30;
-    border-bottom: solid 2px ${Colors.blue};
-  }
-  :visited:active,
-  :active {
-    background-color: ${Colors.lightGrey}80;
-  }
-`
 
 export default class SelectionSort extends Component {
   constructor(props) {
@@ -89,6 +69,7 @@ export default class SelectionSort extends Component {
     const { data, highlight, styleByIndex, sorted } = this.state;
     return (
       <React.Fragment>
+
         { !sorted && <Button onClick={this.handleNext}> Next </Button> }
         { !sorted && <Button onClick={this.handlePlay}> Play </Button> }
         { this.playInterval && <Button onClick={this.handleStop}> Stop </Button> }

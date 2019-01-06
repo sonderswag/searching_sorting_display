@@ -7,6 +7,7 @@ import Colors from '../Colors';
 // style of the link text
 const Text = styled.span`
   padding: 0px 20px 0px 20px;
+  transform: skewX(35deg);
 `;
 
 // style of the container for the link
@@ -26,10 +27,8 @@ export const NavLinkStyle = styled.a`
   border-bottom: ${props => (props.active === true ? `solid 2px ${Colors.blue}` : 'none')};
   border-right: 2px solid ${Colors.blue}B0;
   /* this adds the angle to NavLinks*/
-  transform: skewX(-45deg);
-  & > * {
-    transform: skewX(25deg);
-  }
+  transform: skewX(-35deg);
+
   :hover {
     text-decoration: none;  
     color: ${Colors.lightGrey}80;
@@ -58,7 +57,7 @@ class NavLink extends Component {
           active={location.pathname === to}
           onClick={e => this.handleClick(e, history, location)}
         >
-          <Text style={{ transform: 'skewX(45deg' }}>
+          <Text>
             {children}
           </Text>
         </NavLinkStyle>

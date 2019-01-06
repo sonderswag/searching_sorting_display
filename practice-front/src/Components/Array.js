@@ -20,9 +20,9 @@ const ItemBox = styled.div`
   height: 30px; 
   padding: 10px;
   border: 1px solid ${Colors.green};
-  transform: skewX(-45deg);
+  transform: skewX(-35deg);
   & > * {
-    transform: skewX(45deg);
+    transform: skewX(35deg);
   }
   background-color: ${props => props.background};
   transition: background .2s;
