@@ -25,11 +25,16 @@ const ItemBox = styled.div`
     transform: skewX(45deg);
   }
   background-color: ${props => props.background};
+  transition: background .2s;
 `;
 
 ItemBox.defaultProps = {
   background: 'none',
 }
+
+const Item = styled.span`
+  color: white;
+`;
 // given an array of data create a list of data
 export default function Array(props) {
   const { data, highlight, styleByIndex } = props; // need the old data in order to determine if there was a change
@@ -43,9 +48,9 @@ export default function Array(props) {
           background={highlight[index]}
           style={styleByIndex[index]}
         >
-          <span>
+          <Item>
             {item}
-          </span>
+          </Item>
         </ItemBox>
       );
     });

@@ -6,6 +6,7 @@ import Sort from '../Algortihms/SelectionSort';
 
 const Button = styled.div`
   display: flex;
+  color: white;
   align-items: center;
   justify-content: center;
   width: 50px;
@@ -28,18 +29,27 @@ export default class SelectionSort extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [5, 3, 11, 2, 4],
-      plainData: [5, 3, 11, 2, 4], // this should be temp until I get the input sorted out
+      data: [5, 3, 11, 2, 4, 5],
+      plainData: [5, 3, 11, 2, 4, 5], // this should be temp until I get the input sorted out
       highlight: {},
       styleByIndex: {},
       sorted: false,
     };
     this.sortedStyle = {border: `1px solid red`};
     this.count = 0;
+    this.playInterval = undefined;
   }
 
   componentDidMount() {
     this.sort = Sort(this.state.data);
+  }
+
+  handlePlay = () => {
+    this.playInterval = setInterval(this.handleNext, 1000);
+  }
+
+  handleStop = () => {
+    clearInterval(this.playInterval);
   }
 
   handleReset = () => {
@@ -68,6 +78,10 @@ export default class SelectionSort extends Component {
       newHighlights[search.value.smallest.index] = Colors.green;
     }
 
+    if (results.done) {
+      clearInterval(this.playInterval);
+    }
+
     this.setState({ highlight: newHighlights, sorted: results.done });
   }
 
@@ -76,6 +90,9 @@ export default class SelectionSort extends Component {
     return (
       <React.Fragment>
         { !sorted && <Button onClick={this.handleNext}> Next </Button> }
+        { !sorted && <Button onClick={this.handlePlay}> Play </Button> }
+        { this.playInterval && <Button onClick={this.handleStop}> Stop </Button> }
+        
         <Button onClick={this.handleReset}> Reset </Button>
         <Array data={data} highlight={highlight} styleByIndex={styleByIndex} />
       </React.Fragment>
