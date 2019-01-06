@@ -8,7 +8,7 @@ import Colors from './Colors';
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1500px;
+  width: 1200px;
   height: 100%;
   margin: auto;
   border: 1px solid ${Colors.contentBackground};
