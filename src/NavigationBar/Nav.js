@@ -73,10 +73,10 @@ export default function Nav() {
           </Logo>
           <NavList>
             <li>
-              <NavLink to="/">QuickSort</NavLink>
+              <NavLink to="/">Selection Sort</NavLink>
             </li>
             <li>
-              <NavLink to="/stem">BubbleSort</NavLink>
+              <NavLink to="/stem">Bubble Sort</NavLink>
             </li>
           </NavList>
         </NavBar>

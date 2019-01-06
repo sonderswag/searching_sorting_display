@@ -1,28 +1,34 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Nav from './NavigationBar/Nav'
+import styled from 'styled-components';
+import Nav from './NavigationBar/Nav';
+import SelectionSort from './Views/SelectionSort';
+import Colors from './Colors';
+
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 1500px;
+  height: 100%;
+  margin: auto;
+  border: 1px solid ${Colors.contentBackground};
+  margin-top: 20px;
+`;
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.something = 'something';
+  }
+
   render() {
     return (
-      <div className="App">
+      <React.Fragment>
         <Nav />
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <PageContainer>
+          <SelectionSort />
+        </PageContainer>
+      </React.Fragment>
     );
   }
 }
