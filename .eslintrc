@@ -1,0 +1,24 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true,
+    "jasmine": true
+  },
+  "rules": {
+    // enables single line definition of object/arrays w/o commas
+    // enables cases where an arrow function is a parameter into a function
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "ignore"
+    }],
+    // in node.js, console.log is our way to log, don't warn
+    "no-console": 0,
+    // ignores warning of jsx code in js files. This warning is obsolete.
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+  }
+}
