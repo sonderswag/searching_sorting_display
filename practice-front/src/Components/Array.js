@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Colors from '../Colors'
+import colors from '../Colors';
 
 const Container = styled.div`
   display: flex;
@@ -22,36 +24,31 @@ const ItemBox = styled.div`
   & > * {
     transform: skewX(45deg);
   }
-  ${props => (props.change ? `background-color: ${Colors.green};` : '')}
+  background-color: ${props => props.background};
 `;
+
+ItemBox.defaultProps = {
+  background: 'none',
+}
 // given an array of data create a list of data
 export default function Array(props) {
-  const { data, oldData } = props; // need the old data in order to determine if there was a change
+  const { data, highlight, styleByIndex } = props; // need the old data in order to determine if there was a change
 
+  // highlight is a list of object describing which index to highlight and the color
   const createBlocks = () => {
-    let rtv;
-    if (oldData === undefined) {
-      rtv = data.map((item) => {
-        return (
-          <ItemBox>
-            <span>
-              {item}
-            </span>
-          </ItemBox>
-        );
-      });
-    } else {
-      rtv = data.map((item, index) => {
-        return (
-          <ItemBox change={item !== oldData[index]}>
-            <span>
-              {item}
-            </span>
-          </ItemBox>
-        );
-      });
-    }
-    return rtv;
+    return data.map((item, index) => {
+      return (
+        <ItemBox
+          key={`Array-${item}-${index}`}
+          background={highlight[index]}
+          style={styleByIndex[index]}
+        >
+          <span>
+            {item}
+          </span>
+        </ItemBox>
+      );
+    });
   };
 
   return (
@@ -59,4 +56,13 @@ export default function Array(props) {
       {createBlocks()}
     </Container>
   );
+}
+
+Array.defaultProps = {
+  highlight: {},
+  styleByIndex: {},
+}
+
+Array.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.number),
 }
