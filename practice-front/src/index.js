@@ -10,7 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 ReactDOM.render(
   <BrowserRouter>
     <App />
-  </BrowserRouter>, document.getElementById('root')
+  </BrowserRouter>, document.querySelector('#root')
 );
 
 // If you want your app to work offline and load faster, you can change
