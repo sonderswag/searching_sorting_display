@@ -1,58 +1,69 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import Array from '../Components/Array';
 import Button from '../Components/Button';
 import Colors from '../Colors';
 import Sort from '../Algortihms/SelectionSort';
 
+const Row = styled.div`
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
+  margin: auto;
+`;
 
 export default class SelectionSort extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [5, 3, 11, 2, 4, 5],
-      plainData: [5, 3, 11, 2, 4, 5], // this should be temp until I get the input sorted out
+      dataObj: {},
+      plainData: [2, 3, 11, 1, 4, 5], // this should be temp until I get the input sorted out
       highlight: {},
       styleByIndex: {},
       sorted: false,
+      playing: false,
     };
     this.sortedStyle = {border: `1px solid red`};
-    this.count = 0;
     this.playInterval = undefined;
   }
 
-  componentDidMount() {
-    this.sort = Sort(this.state.data);
+  componentWillMount() {
+    const { plainData } = this.state;
+    this.sort = Sort(this.createDataObj(plainData));
+    this.setState({ dataObj: this.createDataObj(plainData) });
   }
 
+  createDataObj = (arr) => {
+    return arr.map((item, index) => ({value: item, id: `${item}-${index}`}))
+  } 
+
   handlePlay = () => {
-    this.playInterval = setInterval(this.handleNext, 1000);
+    this.playInterval = setInterval(this.handleNext, 700);
+    this.setState({ playing: true });
   }
 
   handleStop = () => {
     clearInterval(this.playInterval);
+    this.setState({ playing: false });
   }
 
   handleReset = () => {
     const { plainData } = this.state;
-    this.sort = Sort(this.state.data);
-    this.count = 0;
-    this.setState({ highlight: {}, styleByIndex: {}, data: plainData, sorted: false });
+    this.sort = Sort(this.createDataObj(plainData));
+    this.setState({ highlight: {}, styleByIndex: {}, dataObj: this.createDataObj(plainData), sorted: false });
   }
 
   handleNext = () => {
-    const { data, styleByIndex } = this.state;
+    const { dataObj, styleByIndex } = this.state;
     const results = this.sort.next();
     const { search } = results.value;
     const { array } = results.value;
     const newHighlights = {}
     // console.log(results.done);
-    // console.log(search, array);
+    console.log(search, array);
     // check to see if the array has been re-ordered
     if (array.edit) {
-      const newIndex = Object.assign(styleByIndex);
-      newIndex[data.length - 1 - this.count] = this.sortedStyle;
-      this.count += 1;
-      this.setState({ data: array.sortedArray, styleByIndex: newIndex });
+      this.setState({ dataObj: array.sortedArray});
     } else {
       newHighlights[search.value.currentIndex] = Colors.lightGrey;
       newHighlights[search.value.smallest.index] = Colors.green;
@@ -66,16 +77,26 @@ export default class SelectionSort extends Component {
   }
 
   render() {
-    const { data, highlight, styleByIndex, sorted } = this.state;
+    const {
+      dataObj,
+      highlight,
+      styleByIndex,
+      sorted,
+      playing,
+    } = this.state;
     return (
       <React.Fragment>
-
-        { !sorted && <Button onClick={this.handleNext}> Next </Button> }
-        { !sorted && <Button onClick={this.handlePlay}> Play </Button> }
-        { this.playInterval && <Button onClick={this.handleStop}> Stop </Button> }
-        
-        <Button onClick={this.handleReset}> Reset </Button>
-        <Array data={data} highlight={highlight} styleByIndex={styleByIndex} />
+        <Row>
+          { !sorted && <Button onClick={this.handleNext}> Step </Button> }
+          { !playing ? 
+            <Button onClick={this.handlePlay}> Play </Button>
+            :
+            <Button onClick={this.handleStop}> Stop </Button>
+          }
+          
+          <Button onClick={this.handleReset}> Reset </Button>
+        </Row>
+        <Array data={dataObj} highlight={highlight} styleByIndex={styleByIndex} />
       </React.Fragment>
     );
   }

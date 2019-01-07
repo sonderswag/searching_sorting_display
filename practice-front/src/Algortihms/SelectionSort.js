@@ -30,27 +30,26 @@ function sort(arr) {
 }
 
 // step form must be a generator requiring standard for loop
-function* findSmallestStep(arr) {
+function* findSmallestStep(arrObj) {
   let index = 0;
   const smallest = {
-    value: arr[0],
+    value: arrObj[0].value,
     index: 0,
   };
-  for (index = 0; index < arr.length; index += 1) {
+  for (index = 0; index < arrObj.length; index += 1) {
     yield { currentIndex: index, smallest };
-    if (arr[index] < smallest.value) {
-      smallest.value = arr[index];
+    if (arrObj[index].value < smallest.value) {
+      smallest.value = arrObj[index].value;
       smallest.index = index;
-      yield { currentIndex: index, smallest };
     }
-    if (index === arr.length - 1) {
-      return { currentIndex: index, smallest };
+    if (index === arrObj.length - 1) {
+      return { currentIndex: index, smallest, test: true};
     }
   }
 }
 
-function* sortStep(arr) {
-  let sortedArray = Array.from(arr); // this is only a shallow copy
+function* sortStep(arrObj) {
+  let sortedArray = Array.from(arrObj);
   let i;
   for (i = sortedArray.length; i > 0; i -= 1) {
     // find smallest
@@ -58,7 +57,7 @@ function* sortStep(arr) {
     let search;
     do {
       search = smallSearch.next();
-      yield { search, array: { sortedArray, edit: false } };
+      yield { search, array: { sortedArray, edit: false, test: true } };
     } while (!search.done);
 
     const { smallest } = search.value;
@@ -70,7 +69,7 @@ function* sortStep(arr) {
     sortedArray = front.concat(back);
 
     // add the smallest value back
-    sortedArray.push(smallest.value);
+    sortedArray.push({value: smallest.value, id: `sorted-${smallest.value}`, sorted: true});
     if (i === 1) {
       return { search, array: { sortedArray, edit: true } };
     }
