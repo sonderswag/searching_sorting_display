@@ -13,9 +13,11 @@ const StyledButton = withStyles({
     border: 0,
     color: 'white',
     height: 48,
+    width: '150px',
     padding: '0 30px',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    transform: 'skewX(-35deg)'
+    transform: 'skewX(-35deg)',
+    fontSize: '20px',
   },
   label: {
     textTransform: 'capitalize',

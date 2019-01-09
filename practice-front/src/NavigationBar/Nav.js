@@ -34,7 +34,7 @@ const Logo = styled.div`
 // Display the title of the page in the left hand corner
 const Title = styled.h1`
   margin: 0px;
-  margin-left: 10px;
+  margin-left: 5px;
   font-size: 20px;
   color: ${Colors.blue};
   user-select: none;
@@ -69,7 +69,7 @@ export default function Nav() {
       <NavContainer>
         <NavBar>
           <Logo onClick={() => history.push('/')}>
-            <Title>Let's Have Some Fun</Title>
+            <Title>Some Fun</Title>
           </Logo>
           <NavList>
             <li>
