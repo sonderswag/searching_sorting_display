@@ -72,10 +72,13 @@ function quickSort2(arr, start = 0, end) {
       count += 1;
       right -= 1;
     }
-    if (left <= right) {
+    if (left < right) {
       swap(arr, left, right);
       left += 1;
       right -= 1; 
+    }
+    if (left === right ) {
+      break;
     }
   }
   swap(arr, start, right);
@@ -91,56 +94,76 @@ function quickSort2(arr, start = 0, end) {
 // if yes swap and move check right 
 
 
-function* quickSortStep(array, start = 0, end) {
-  // base case 
-  if (end === undefined ) {
-    end = array.length;
+function* quickSortStep(arr, start = 0, end, splitDepth = 0) {
+  function output() {
+    return {splitDepth, start, end, left, right, pivotValue, pivotIndex: start, arr}
   }
-  if (end - start <= 1) {
-    return
+   // base case 
+   if (end === undefined ) {
+    end = arr.length - 1;
   }
-  let pivotIndex = 0;
-  const pivotValue = array[start]; // include start
+  if (end - start <= 0) {
+    console.log('base!!!!!!!!!')
+    return 'hello'
+  }
+  const pivotValue = arr[start]; // include start
   let left = start + 1; // don't include start as it is pivot
-  let right = end - 1; // don't include end index
-  yield {array, left, right, pivotValue, pivotIndex};
-  while (left !== right) {
-    console.log(`left: ${left}, right: ${right}`);
-    if (array[left] > pivotValue) {
-      swap(array, left, right);
-      right -= 1;
-    } else {
+  let right = end; // don't include end index
+  yield output();
+  do {
+    while (arr[left] <= pivotValue && left < end) {
       left += 1;
+      yield output();
     }
-    console.log(array, left, right);
-  }
-  if (array[left] > pivotValue) {
-    left -= 1;
-  } 
-  console.log(array, `pivot index: ${left}`);
-  swap(array, start, left);
-  console.log(array, `pivot index: ${left}`);
-
+    while (arr[right] > pivotValue && right > start) {
+      right -= 1;
+      yield output();
+    }
+    if (left < right) {
+      console.log('swap')
+      swap(arr, left, right);
+      yield output();
+      left += 1;
+      right -= 1;
+      yield output();
+    }
+  } while (left < right)
+  swap(arr, start, right);
+  yield output(); 
+  console.log('split');
   // left
-  quickSort(array, start, left);
-  // right 
-  quickSort(array, left + 1, end);
+  console.log(start, right-1, 'left');
+  const leftPart = quickSortStep(arr, start, right - 1, splitDepth + 1);
+  for (let i of leftPart) {
+    yield i;
+  }
+  //right 
+  console.log(right+1, end, 'right');
 
+  const rightPart = quickSortStep(arr, right + 1, end, splitDepth + 1);
+  for (let i of rightPart) {
+    yield i;
+  }
 }
 
 
-const test = [5, 2, 8, 8, 4, 1, 9, 1, 14, 10, 13, 20, 3];
+const test = [2, 3, 1, 6, 4];
 
-quickSort2(test);
-console.log(test);
-console.log(count, swapCount);
+const quick = quickSortStep(test);
 
-count = 0;
-swapCount = 0;
-const test1 = [5, 2, 8, 8, 4, 1, 9, 1, 14, 10, 13, 20, 3]
-quickSort(test1);
-console.log(test1);
-console.log(count,swapCount );
+for (let i of quick) {
+  console.log(i);
+}
+// quickSort2(test);
+// console.log(test);
+// console.log(count, swapCount);
+
+// count = 0;
+// swapCount = 0;
+// const test1 = [5, 2, 8, 8, 4, 1, 9, 1, 14, 10, 13, 20, 3]
+// quickSort(test1);
+// console.log(test1);
+// console.log(count,swapCount );
 
 
 module.exports = {
